@@ -52,3 +52,8 @@ npm run test:components
 npm run build
 npm run test:e2e
 ```
+
+## Container Release & AWS Sandbox CD (Phase 4)
+
+- `.github/workflows/ci.yml` enforces Prettier, ESLint, strict TypeScript, unit & component tests, `npm audit --omit=dev --audit-level=high`, CycloneDX SBOM generation, production `next build`, Playwright Chromium E2E smoke tests, and multi-stage Docker Buildx verification.
+- `.github/workflows/release-and-deploy.yml` publishes immutable SHA & semver tagged `codepilot-ai-frontend` Docker Hub images with release digest manifests and deploys via GitHub Actions IAM OIDC + serialized AWS SSM `SendCommand` (zero static AWS credentials, zero SSH).

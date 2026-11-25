@@ -50,6 +50,11 @@ jobs:
       - name: Dependency vulnerability scan
         run: npm audit --omit=dev --audit-level=high
 
+      - name: Generate CycloneDX SBOM
+        run: |
+          mkdir -p test-results
+          npm sbom --sbom-format=cyclonedx --omit=dev > test-results/sbom-cyclonedx.json
+
       - name: Build production Next.js application
         env:
           BACKEND_API_URL: http://127.0.0.1:4000
