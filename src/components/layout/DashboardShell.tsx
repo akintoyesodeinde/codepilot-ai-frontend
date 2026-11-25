@@ -12,10 +12,13 @@ import {
   Check,
   ChevronDown,
   Code2,
+  Cpu,
   FlaskConical,
   FolderGit2,
+  GitBranch,
   GitPullRequest,
   LayoutDashboard,
+  ListChecks,
   LogOut,
   Menu,
   Network,
@@ -47,6 +50,10 @@ interface NavItem {
 const PRIMARY_NAV: NavItem[] = [
   { label: 'Overview', href: '/dashboard', icon: LayoutDashboard },
   { label: 'Repositories', href: '/repositories', icon: FolderGit2 },
+  { label: 'Pull Request Reviews', href: '/pull-requests', icon: GitPullRequest },
+  { label: 'GitHub Integrations', href: '/integrations', icon: GitBranch },
+  { label: 'AI Usage & Spend', href: '/ai-usage', icon: Cpu },
+  { label: 'Background Jobs', href: '/jobs', icon: ListChecks },
   { label: 'Team & Roles', href: '/team', icon: Users },
   { label: 'Notifications', href: '/notifications', icon: Bell },
   { label: 'Audit Logs', href: '/audit-logs', icon: Activity, permission: 'audit:read' },
@@ -54,12 +61,6 @@ const PRIMARY_NAV: NavItem[] = [
 ];
 
 const UPCOMING_NAV: NavItem[] = [
-  {
-    label: 'Pull Request Reviews',
-    href: '/pull-requests',
-    icon: GitPullRequest,
-    phaseBadge: 'Phase 2',
-  },
   { label: 'Security Intelligence', href: '/security', icon: ShieldAlert, phaseBadge: 'Phase 3' },
   { label: 'Architecture Explorer', href: '/architecture', icon: Network, phaseBadge: 'Phase 3' },
   { label: 'AI Coding Assistant', href: '/assistant', icon: Bot, phaseBadge: 'Phase 3' },

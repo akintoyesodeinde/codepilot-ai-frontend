@@ -27,8 +27,8 @@ const CAPABILITIES = [
   {
     icon: GitPullRequest,
     title: 'Automated PR Review Engine',
-    badge: 'Phase 2',
-    badgeVariant: 'secondary' as const,
+    badge: 'Live — Phase 2',
+    badgeVariant: 'success' as const,
     description:
       'GitHub App webhook ingestion, SQS asynchronous workers, Tree-sitter indexing, provider-agnostic AI orchestration, and human-approved GitHub publishing.',
   },
@@ -143,9 +143,10 @@ export default function LandingPage() {
               Engineered in four verifiable production phases
             </h2>
             <p className="mt-2 text-[var(--muted-foreground)]">
-              Phase 1 delivers the multi-tenant REST API, MySQL 8.4 foundation, RBAC security
-              boundaries, and live engineering dashboard. Upcoming modules are clearly labeled until
-              their workers and evaluation suites pass CI.
+              Phases 1 and 2 deliver the multi-tenant REST API, MySQL 8.4 foundation, GitHub App
+              integrations, asynchronous SQS workers, Tree-sitter indexing, and automated PR reviews
+              with human-approved publishing. Upcoming Phase 3 modules are clearly labeled until
+              their analyzers and evaluation suites pass CI.
             </p>
           </div>
 

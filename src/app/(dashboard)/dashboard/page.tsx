@@ -3,12 +3,12 @@
 import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query';
 import {
-  Activity,
   AlertCircle,
   ArrowRight,
+  Cpu,
   FolderGit2,
   GitBranch,
-  GitCommit,
+  GitPullRequest,
   ShieldCheck,
   Users,
 } from 'lucide-react';
@@ -72,30 +72,30 @@ export default function DashboardOverviewPage() {
     {
       label: 'Connected Repositories',
       value: data.summary.connectedRepositories,
-      sub: `${data.summary.trackedBranches} branches tracked`,
+      sub: `${data.summary.trackedBranches} branches · ${data.summary.trackedCommits} commits`,
       icon: FolderGit2,
       href: '/repositories',
     },
     {
-      label: 'Tracked Commits',
-      value: data.summary.trackedCommits,
+      label: 'Open Pull Requests',
+      value: data.summary.openPullRequests ?? 0,
       sub: `${data.summary.activeGithubInstallations} GitHub installation(s)`,
-      icon: GitCommit,
-      href: '/repositories',
+      icon: GitPullRequest,
+      href: '/pull-requests',
+    },
+    {
+      label: 'Automated AI Reviews',
+      value: data.summary.completedReviews ?? 0,
+      sub: `${data.summary.totalReviewFindings ?? 0} verified finding(s) · ${data.summary.activeJobs ?? 0} active job(s)`,
+      icon: Cpu,
+      href: '/pull-requests',
     },
     {
       label: 'Workspace Members',
       value: data.summary.activeMembers,
-      sub: `${data.summary.pendingInvitations} pending invitation(s)`,
+      sub: `${data.summary.pendingInvitations} pending · ${data.summary.auditEventsLast7Days} audit event(s) (7d)`,
       icon: Users,
       href: '/team',
-    },
-    {
-      label: 'Audit Events (7d)',
-      value: data.summary.auditEventsLast7Days,
-      sub: `${data.summary.unreadNotifications} unread notification(s)`,
-      icon: Activity,
-      href: '/audit-logs',
     },
   ];
 
@@ -118,7 +118,7 @@ export default function DashboardOverviewPage() {
         <div className="flex items-center gap-2">
           <Badge variant="success">
             <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
-            Phase 1 Foundation Active
+            Phase 2 Intelligence Active
           </Badge>
         </div>
       </div>

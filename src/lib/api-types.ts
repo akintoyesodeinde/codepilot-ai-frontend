@@ -171,6 +171,10 @@ export interface AnalyticsOverview {
     activeGithubInstallations: number;
     unreadNotifications: number;
     auditEventsLast7Days: number;
+    openPullRequests?: number;
+    completedReviews?: number;
+    totalReviewFindings?: number;
+    activeJobs?: number;
   };
   usage: {
     monthlyAiBudgetUsd: number;
@@ -226,4 +230,206 @@ export interface AuditLogItem {
   ipAddress: string | null;
   metadata: Record<string, unknown> | null;
   createdAt: string;
+}
+
+export interface GithubInstallationItem {
+  id: string;
+  workspaceId: string;
+  githubInstallationId: string;
+  accountLogin: string;
+  accountType: string;
+  targetType: string;
+  status: 'ACTIVE' | 'SUSPENDED' | 'REVOKED';
+  permissions: Record<string, string> | null;
+  repositoryCount: number;
+  installedAt: string;
+  revokedAt: string | null;
+}
+
+export interface IndexedFileItem {
+  id: string;
+  filePath: string;
+  language: string;
+  sizeBytes: number;
+  lineCount: number;
+  contentHash: string;
+  contentPreview: string | null;
+  updatedAt: string;
+}
+
+export interface CodeSymbolItem {
+  id: string;
+  filePath: string;
+  name: string;
+  kind: string;
+  signature: string | null;
+  startLine: number;
+  endLine: number;
+  exported: boolean;
+}
+
+export interface PullRequestListItem {
+  id: string;
+  workspaceId: string;
+  repositoryId: string;
+  repository: { id: string; fullName: string; name: string; ownerLogin: string };
+  prNumber: number;
+  title: string;
+  state: 'OPEN' | 'CLOSED' | 'MERGED';
+  authorLogin: string;
+  baseBranch: string;
+  headBranch: string;
+  baseSha: string;
+  headSha: string;
+  isDraft: boolean;
+  additions: number;
+  deletions: number;
+  changedFilesCount: number;
+  htmlUrl: string | null;
+  latestReview: {
+    id: string;
+    status: string;
+    overallRisk: string | null;
+    findingsCount: number;
+    headSha: string;
+    createdAt: string;
+  } | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface PullRequestDetail extends Omit<PullRequestListItem, 'latestReview'> {
+  description: string | null;
+  reviews: Array<{
+    id: string;
+    headSha: string;
+    policyVersion: string;
+    status: string;
+    overallRisk: string | null;
+    findingsCount: number;
+    rejectedFindingsCount: number;
+    requiresApproval: boolean;
+    analysisJobId: string | null;
+    approvedAt: string | null;
+    rejectedAt: string | null;
+    publishedAt: string | null;
+    createdAt: string;
+  }>;
+}
+
+export interface PullRequestDiffFile {
+  id: string;
+  filePath: string;
+  previousFilePath: string | null;
+  status: string;
+  additions: number;
+  deletions: number;
+  patch: string | null;
+}
+
+export interface CodeReviewDetail {
+  id: string;
+  workspaceId: string;
+  repository: { id: string; fullName: string };
+  pullRequest: {
+    id: string;
+    prNumber: number;
+    title: string;
+    headSha: string;
+    baseBranch: string;
+    headBranch: string;
+  };
+  headSha: string;
+  policyVersion: string;
+  status: string;
+  analysisJobId: string | null;
+  summaryMarkdown: string | null;
+  overallRisk: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL' | null;
+  findingsCount: number;
+  rejectedFindingsCount: number;
+  requiresApproval: boolean;
+  approvedAt: string | null;
+  rejectedAt: string | null;
+  rejectionReason: string | null;
+  publishedAt: string | null;
+  githubReviewId: string | null;
+  publishedCommentsCount: number;
+  errorMessage: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ReviewFindingItem {
+  id: string;
+  fingerprint: string;
+  source: 'DETERMINISTIC' | 'AI';
+  severity: 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW' | 'INFO';
+  category: string;
+  title: string;
+  description: string;
+  suggestion: string | null;
+  filePath: string;
+  startLine: number;
+  endLine: number;
+  evidenceSnippet: string | null;
+  confidence: number | null;
+  isPublished: boolean;
+  feedbackSummary: {
+    helpful: number;
+    notHelpful: number;
+    falsePositive: number;
+  };
+  createdAt: string;
+}
+
+export interface AnalysisJobItem {
+  id: string;
+  workspaceId: string;
+  repositoryId: string | null;
+  jobType: string;
+  status: 'QUEUED' | 'RUNNING' | 'COMPLETED' | 'FAILED' | 'CANCELLED' | 'DEAD_LETTERED';
+  attempts: number;
+  maxAttempts: number;
+  lastError: string | null;
+  startedAt: string | null;
+  completedAt: string | null;
+  createdAt: string;
+}
+
+export interface AiUsageResponse {
+  billingPeriod: string;
+  budget: {
+    monthlyAiBudgetUsd: number;
+    currentMonthSpendUsd: number;
+    maxMonthlyTokens: number;
+    currentMonthTokens: number;
+  } | null;
+  periodTotals: {
+    requests: number;
+    inputTokens: number;
+    outputTokens: number;
+    totalTokens: number;
+    costUsd: number;
+  };
+  breakdownByProvider: Array<{
+    provider: string;
+    model: string;
+    requests: number;
+    totalTokens: number;
+    costUsd: number;
+  }>;
+  recentRequests: Array<{
+    id: string;
+    provider: string;
+    model: string;
+    purpose: string;
+    status: string;
+    inputTokens: number;
+    outputTokens: number;
+    totalTokens: number;
+    estimatedCostUsd: number;
+    latencyMs: number;
+    errorCode: string | null;
+    createdAt: string;
+  }>;
 }
