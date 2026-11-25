@@ -7,6 +7,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import {
   Activity,
+  BarChart3,
   Bell,
   Bot,
   Check,
@@ -23,6 +24,7 @@ import {
   Menu,
   Network,
   Plus,
+  Server,
   Settings,
   ShieldAlert,
   ShieldCheck,
@@ -51,6 +53,14 @@ const PRIMARY_NAV: NavItem[] = [
   { label: 'Overview', href: '/dashboard', icon: LayoutDashboard },
   { label: 'Repositories', href: '/repositories', icon: FolderGit2 },
   { label: 'Pull Request Reviews', href: '/pull-requests', icon: GitPullRequest },
+  { label: 'Security Intelligence', href: '/security', icon: ShieldAlert },
+  { label: 'Architecture Explorer', href: '/architecture', icon: Network },
+  { label: 'AI Coding Assistant', href: '/assistant', icon: Bot },
+  { label: 'AI Test Studio', href: '/test-studio', icon: FlaskConical },
+  { label: 'Engineering Analytics', href: '/analytics', icon: BarChart3 },
+];
+
+const OPERATIONS_NAV: NavItem[] = [
   { label: 'GitHub Integrations', href: '/integrations', icon: GitBranch },
   { label: 'AI Usage & Spend', href: '/ai-usage', icon: Cpu },
   { label: 'Background Jobs', href: '/jobs', icon: ListChecks },
@@ -58,13 +68,6 @@ const PRIMARY_NAV: NavItem[] = [
   { label: 'Notifications', href: '/notifications', icon: Bell },
   { label: 'Audit Logs', href: '/audit-logs', icon: Activity, permission: 'audit:read' },
   { label: 'Workspace Settings', href: '/settings', icon: Settings },
-];
-
-const UPCOMING_NAV: NavItem[] = [
-  { label: 'Security Intelligence', href: '/security', icon: ShieldAlert, phaseBadge: 'Phase 3' },
-  { label: 'Architecture Explorer', href: '/architecture', icon: Network, phaseBadge: 'Phase 3' },
-  { label: 'AI Coding Assistant', href: '/assistant', icon: Bot, phaseBadge: 'Phase 3' },
-  { label: 'AI Test Studio', href: '/test-studio', icon: FlaskConical, phaseBadge: 'Phase 3' },
 ];
 
 export function DashboardShell({ children }: { children: React.ReactNode }) {
@@ -184,12 +187,14 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
 
         <div>
           <p className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">
-            Intelligence Roadmap
+            Operations &amp; Governance
           </p>
-          <nav aria-label="Upcoming intelligence modules" className="space-y-1">
-            {UPCOMING_NAV.map((item) => {
+          <nav aria-label="Operations navigation" className="space-y-1">
+            {OPERATIONS_NAV.filter(
+              (item) => !item.permission || hasPermission(item.permission),
+            ).map((item) => {
               const Icon = item.icon;
-              const active = pathname === item.href;
+              const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
               return (
                 <Link
                   key={item.href}
@@ -203,17 +208,34 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
                   )}
                 >
                   <span className="flex items-center gap-2.5 truncate">
-                    <Icon className="h-4 w-4 shrink-0 opacity-75" aria-hidden="true" />
+                    <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
                     <span className="truncate">{item.label}</span>
                   </span>
-                  {item.phaseBadge ? (
-                    <Badge variant="secondary" className="ml-2 shrink-0 px-1.5 py-0 text-[10px]">
-                      {item.phaseBadge}
+                  {item.href === '/notifications' && unreadCount > 0 ? (
+                    <Badge variant="default" className="px-1.5 py-0 text-[10px]">
+                      {unreadCount}
                     </Badge>
                   ) : null}
                 </Link>
               );
             })}
+            {user?.isPlatformAdmin ? (
+              <Link
+                href="/admin"
+                onClick={onNavigate}
+                className={cn(
+                  'flex items-center justify-between rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                  pathname === '/admin'
+                    ? 'bg-[var(--accent)] text-[var(--accent-foreground)]'
+                    : 'text-[var(--muted-foreground)] hover:bg-[var(--muted)] hover:text-[var(--foreground)]',
+                )}
+              >
+                <span className="flex items-center gap-2.5 truncate">
+                  <Server className="h-4 w-4 shrink-0" aria-hidden="true" />
+                  <span className="truncate">Platform Admin</span>
+                </span>
+              </Link>
+            ) : null}
           </nav>
         </div>
       </div>

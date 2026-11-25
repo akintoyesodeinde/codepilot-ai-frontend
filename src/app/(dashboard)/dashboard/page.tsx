@@ -118,7 +118,7 @@ export default function DashboardOverviewPage() {
         <div className="flex items-center gap-2">
           <Badge variant="success">
             <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
-            Phase 2 Intelligence Active
+            Phase 3 Intelligence Active
           </Badge>
         </div>
       </div>

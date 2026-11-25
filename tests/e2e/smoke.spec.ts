@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-test.describe('Phase 1 & Phase 2 Frontend Smoke Suite', () => {
+test.describe('Phases 1–3 Frontend Smoke Suite', () => {
   test('renders landing page and navigates to registration and login forms', async ({ page }) => {
     await page.goto('/');
 
@@ -9,6 +9,7 @@ test.describe('Phase 1 & Phase 2 Frontend Smoke Suite', () => {
     ).toBeVisible();
     await expect(page.getByText('Live — Phase 1')).toBeVisible();
     await expect(page.getByText('Live — Phase 2')).toBeVisible();
+    await expect(page.getByText('Live — Phase 3').first()).toBeVisible();
 
     await page.getByRole('link', { name: 'Get started' }).click();
     await expect(page).toHaveURL(/\/register$/);

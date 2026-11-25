@@ -35,32 +35,32 @@ const CAPABILITIES = [
   {
     icon: Lock,
     title: 'Deterministic Security Intelligence',
-    badge: 'Phase 3',
-    badgeVariant: 'secondary' as const,
+    badge: 'Live — Phase 3',
+    badgeVariant: 'success' as const,
     description:
       'Semgrep SAST, Gitleaks secret redaction, OSV-Scanner dependency auditing, ESLint, and Trivy scanning strictly separated from advisory AI insights.',
   },
   {
     icon: Network,
     title: 'Software Architecture Explorer',
-    badge: 'Phase 3',
-    badgeVariant: 'secondary' as const,
+    badge: 'Live — Phase 3',
+    badgeVariant: 'success' as const,
     description:
       'Deterministic dependency graph analysis detecting circular dependencies, architectural layer violations, and coupling hotspots in React Flow.',
   },
   {
     icon: Bot,
     title: 'Repository-Aware AI Assistant',
-    badge: 'Phase 3',
-    badgeVariant: 'secondary' as const,
+    badge: 'Live — Phase 3',
+    badgeVariant: 'success' as const,
     description:
       'Commit-scoped RAG with verified file and line citations, workspace spend limits, and strict prompt-injection isolation.',
   },
   {
     icon: FlaskConical,
     title: 'AI Test Studio',
-    badge: 'Phase 3',
-    badgeVariant: 'secondary' as const,
+    badge: 'Live — Phase 3',
+    badgeVariant: 'success' as const,
     description:
       'Syntax-validated unit, integration, and regression test suggestions with boundary condition checks and zero untrusted code execution on host.',
   },
@@ -143,10 +143,10 @@ export default function LandingPage() {
               Engineered in four verifiable production phases
             </h2>
             <p className="mt-2 text-[var(--muted-foreground)]">
-              Phases 1 and 2 deliver the multi-tenant REST API, MySQL 8.4 foundation, GitHub App
-              integrations, asynchronous SQS workers, Tree-sitter indexing, and automated PR reviews
-              with human-approved publishing. Upcoming Phase 3 modules are clearly labeled until
-              their analyzers and evaluation suites pass CI.
+              Phases 1 through 3 deliver the multi-tenant REST API, MySQL 8.4 foundation, GitHub App
+              integrations, asynchronous SQS workers, Tree-sitter indexing, automated PR reviews,
+              deterministic security scanning, interactive React Flow architecture analysis,
+              advisory SSE AI assistant, and syntax-validated AI Test Studio.
             </p>
           </div>
 
